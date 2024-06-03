@@ -39,6 +39,11 @@ public abstract class AbstractMessage<T> implements IMessage {
         return put("reply_parameters",new JSONObject().fluentPut("message_id",messageId));
     }
 
+    public T replay(JSONObject replay){
+
+        return put("reply_parameters",replay);
+    }
+
     public T disableNotification(boolean disable){
 
         return put("disable_notification",disable);
