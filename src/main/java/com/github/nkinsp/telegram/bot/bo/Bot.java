@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 @Builder
 @Data
 public class Bot {
@@ -20,6 +23,8 @@ public class Bot {
     private String userName;
 
     private Boolean dev = true;
+
+    private BotSession session;
 
     /**
      * 发送消息
@@ -38,10 +43,36 @@ public class Bot {
 
     }
 
+    public void deleteMessage(String chatId,String messageId){
+
+        api().deleteMessage(chatId,messageId);
+
+    }
+
+
     public BotApi api(){
 
         return new BotApi(this, dev);
     }
+
+
+
+    public void openSession(Supplier<BotSession> func){
+
+       this.session = func.get();
+
+    }
+
+    public BotSession getSession(){
+
+        if(session == null){
+            throw  new RuntimeException("session is not open");
+        }
+
+        return session;
+
+    }
+
 
 
 }
