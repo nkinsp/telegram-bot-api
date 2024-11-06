@@ -1,5 +1,6 @@
 package com.github.nkinsp.telegram.bot.bo;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.github.nkinsp.telegram.bot.api.BotApi;
 import com.github.nkinsp.telegram.bot.message.send.EditMessage;
 import com.github.nkinsp.telegram.bot.message.send.IMessage;
@@ -37,12 +38,23 @@ public class Bot {
 
     }
 
+    /**
+     * 修改消息
+     * @param message
+     * @return
+     * @param <T>
+     */
     public <T> String editMessage(EditMessage<T> message) {
 
         return api().editMessage(message);
 
     }
 
+    /**
+     * 删除消息
+     * @param chatId
+     * @param messageId
+     */
     public void deleteMessage(String chatId,String messageId){
 
         api().deleteMessage(chatId,messageId);
@@ -72,6 +84,8 @@ public class Bot {
         return session;
 
     }
+
+
 
 
 

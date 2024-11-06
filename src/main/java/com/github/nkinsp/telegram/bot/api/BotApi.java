@@ -83,7 +83,6 @@ public class BotApi {
             return send.body();
 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
 
@@ -201,6 +200,35 @@ public class BotApi {
         String filePath = data.getString("file_path");
 
         return getFileData(filePath, HttpResponse.BodyHandlers.ofByteArray());
+
+    }
+
+
+    /**
+     *
+     * @param url
+     * @param secretToken
+     */
+    public void setWebhook(String url,String secretToken){
+
+        JSONObject object = new JSONObject();
+
+        object.put("url",url);
+        object.put("secret_token",secretToken);
+
+        log.info("setWebhook request=>{}", object);
+
+        JSONObject result = post("setWebhook", object.toJSONString());
+
+        log.info("setWebhook result=>{}", result);
+
+        if (result == null){
+            throw new RuntimeException("setWebhook error");
+        }
+
+        if (!result.getBooleanValue("ok")) {
+            throw new RuntimeException(result.getString("description"));
+        }
 
     }
 }
