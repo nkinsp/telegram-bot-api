@@ -20,7 +20,11 @@ public abstract class AbstractMessage<T> implements IMessage {
     }
 
 
-    public T put(String name,Object value){
+    public JSONObject getMessage() {
+        return message;
+    }
+
+    public T put(String name, Object value){
 
         message.put(name,value);
 

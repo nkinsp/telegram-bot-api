@@ -1,5 +1,7 @@
 package com.github.nkinsp.telegram.bot.message.send;
 
+import com.alibaba.fastjson2.JSONObject;
+
 import java.lang.reflect.InvocationTargetException;
 
 public interface IMessage {
@@ -7,6 +9,8 @@ public interface IMessage {
     String serialize();
 
     String messageType();
+
+    JSONObject getMessage();
 
 
 
