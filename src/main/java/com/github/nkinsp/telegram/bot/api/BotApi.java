@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
 import java.net.URI;
@@ -63,6 +64,7 @@ public class BotApi {
     }
 
 
+
     private <T> T execute(HttpRequest request, HttpResponse.BodyHandler<T> responseBodyHandler) {
 
         try {
@@ -79,6 +81,9 @@ public class BotApi {
 
 
             HttpResponse<T> send = httpClient.send(request, responseBodyHandler);
+
+
+
 
             return send.body();
 
@@ -200,6 +205,27 @@ public class BotApi {
         String filePath = data.getString("file_path");
 
         return getFileData(filePath, HttpResponse.BodyHandlers.ofByteArray());
+
+    }
+
+    public InputStream getFileInputStream(String fileId) {
+
+        JSONObject ret = post("getFile", new JSONObject().fluentPut("file_id", fileId).toJSONString());
+
+        if (ret == null) {
+            return null;
+        }
+
+        log.info("getFileInputStream=>{}",ret);
+
+        JSONObject data = ret.getJSONObject("result");
+
+        if (data == null || !data.containsKey("file_path")) {
+            return null;
+        }
+        String filePath = data.getString("file_path");
+
+        return getFileData(filePath, HttpResponse.BodyHandlers.ofInputStream());
 
     }
 
