@@ -5,11 +5,10 @@ import com.alibaba.fastjson2.JSONObject;
 import com.github.nkinsp.telegram.bot.bo.Bot;
 import com.github.nkinsp.telegram.bot.message.send.EditMessage;
 import com.github.nkinsp.telegram.bot.message.send.IMessage;
-import lombok.CustomLog;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
@@ -18,12 +17,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.Map;
-import java.util.logging.Logger;
 
-@Slf4j
 public class BotApi {
 
+
+    private static final Logger log = LoggerFactory.getLogger(BotApi.class);
 
     private Bot bot;
 
@@ -145,12 +143,8 @@ public class BotApi {
 
     public String sendMessage(String messageType, String message) {
 
-        log.info("sendMessage type=>{} message=>{}", messageType, message);
 
         JSONObject ret = post(messageType, message);
-
-        log.info("sendMessage result=>{}", ret);
-
 
         if (!ret.getBoolean("ok")) {
             throw new RuntimeException(ret.getString("description"));
@@ -166,9 +160,6 @@ public class BotApi {
 
         JSONObject ret = post(message.messageType(), serialize);
 
-        log.info("editMessage result=>{}", ret);
-
-
         if (!ret.getBoolean("ok")) {
 
             throw new RuntimeException(ret.getString("description"));
@@ -183,7 +174,6 @@ public class BotApi {
 
         JSONObject ret = post("deleteMessage", new JSONObject().fluentPut("chat_id", chatId).fluentPut("message_id", messageId).toJSONString());
 
-        log.info("deleteMessage result=>{}", ret);
     }
 
 
