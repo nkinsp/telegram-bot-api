@@ -74,7 +74,7 @@ public class BotApi {
             builder.connectTimeout(Duration.ofSeconds(30));
 
             if (dev) {
-                builder.proxy(ProxySelector.of(new InetSocketAddress("127.0.0.1", 1087)));
+                builder.proxy(ProxySelector.of(new InetSocketAddress("127.0.0.1", 7897)));
             }
 
             HttpClient httpClient = builder.build();
